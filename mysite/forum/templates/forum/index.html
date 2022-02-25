@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum アプリケーション</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'forum/css/index.css' %}" />
+</head>
+<body>
+    <h1>Forum</h1>
+    <h2>各掲示板へのリンク</h2>
+    <table>
+    {% for topic in object_list %}
+    {% if topic.name != "Swift" and topic.name != "Kotlin" %}
+    <tr>
+        <th>{{ topic.name }}</th>
+        <td>
+            <a href="{% url 'forum:forum' topic.name %}">
+                {{ topic.name }}の掲示板へ
+            </a>
+        </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,126 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.page-topic {
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+    height: 5rem;
+    font-size: 3rem;
+    background-color: #808080;
+}
+
+.messages .message-box {
+    border: 0.5px solid #000;
+}
+
+.message-box .message-content-box {
+    padding: 3rem 7%;
+    background-color: #f5f5f5;
+}
+
+.message-content-box .message-content {
+    overflow-wrap: break-word;
+    font-size: 1.3rem;
+}
+
+.message-content-box .message-date {
+    position: absolute;
+    right: 7%;
+}
+
+.message-content-box .message-tags {
+    display: flex;
+    position: absolute;
+    left: 7%;
+    gap: 3%;
+    width: 30%;
+}
+
+.message-image-box {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2rem;
+}
+
+.comment-info-box {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2%;
+    border: 0.5px solid #000;
+    cursor: pointer;
+    padding-right: 7%;
+}
+
+.comment-all-box {
+    display: none;
+}
+
+.comment-box {
+    border-bottom: 0.5px solid #a9a9a9;
+    background-color: #f5f5f5;
+}
+
+.comment-box .comment-content {
+    padding: 1.5rem 7%;
+    overflow-wrap: break-word;
+}
+
+.comment-box .comment-date {
+    position: absolute;
+    right: 7%;
+    margin-top: -2rem;
+}
+
+.comment-form {
+    display: flex;
+    padding: 1rem 7%;
+    background-color: #dcdcdc;
+    gap: 2%;
+    justify-content: space-between;
+}
+
+.comment-form .comment-field {
+    width: 85%;
+}
+
+.comment-field input {
+    width: 100%;
+}
+
+.message-form {
+    padding: 1.5rem 7%;
+}
+
+.message-form-content {
+    flex: 4;
+}
+
+.message-form-top-content {
+    display: flex;
+    gap: 10%;
+}
+
+.message-form-content input {
+    width: 100%;
+}
+
+#id_tag {
+    display: flex;
+}
+
+.message-submit {
+    position: absolute;
+    right: 7%;
+    margin-top: -1rem;
+}
+
+.back-home {
+    text-align: center;
+    border: 0.5px solid #000;
+    width: 100%;
+}
+

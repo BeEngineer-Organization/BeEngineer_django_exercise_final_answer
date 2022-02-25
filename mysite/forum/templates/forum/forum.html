@@ -1,0 +1,101 @@
+{% load static date %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum アプリケーション</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'forum/css/forum.css' %}" />
+</head>
+<body>
+    <div class="page-topic">{{ topic.name }}</div>
+    <form method="GET" class="search-form">
+        {{ search_form.keyword }}
+        <button type="submit" class="search-form__submit">検索</button>
+    </form>
+    <div class="messages">
+    {% for message in object_list %}
+    <form action="{% url 'forum:forum' topic.name %}" method="POST">
+        {% csrf_token %}
+    <div class="message-box">
+        <div class="message-content-box">
+            <div class="message-content">{{ message.content }}</div>
+            <div class="message-date">{{ message.created_at|elapsed_time }}</div>
+            <div class="message-tags">
+                {% for tag in message.tag.all %}
+                    <div class="message-tag">
+                        <a href="{% url 'forum:forum' topic.name %}?tag={{tag.name}}">
+                            {{ tag.name }}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="message-image-box">
+            {% if message.image  %}
+                <img src="{{ message.image.url }}" >
+            {% endif %}
+        </div>
+        <div class="comment-info-box" id="{{message.id}}">
+            {% if message.reply_num > 0  %}
+                <div class="comment-num">コメント数 : {{ message.reply_num }}</div>
+                <div class="comment-latest-date">
+                    最新コメント : {{ message.latest_reply_date|elapsed_time }}
+                </div>
+            {% else %}
+                <div class="comment-none">コメントなし</div>
+            {% endif %}
+        </div>
+        <div class="comment-all-box" id="comment-all-box-{{message.id}}">
+        {% for comment in message.comment.all %}
+        <div class="comment-box">
+            <div class="comment-content">{{ comment.content }}</div>
+            <div class="comment-date">{{ comment.created_at|elapsed_time }}</div>
+        </div>
+        {% endfor %}
+        <div class="comment-form">
+            {% for field in comment_form %}
+            <div class="comment-field">{{ field }}</div>
+            {% endfor %}
+            <div class="comment-submit">
+                <button type="submit" name="comment" value="{{ message.id }}">
+                    コメント
+                </button>
+            </div>
+        </div>
+        </div>
+    </div>
+    </form>
+    {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="{% url 'forum:forum' topic.name %}?{% if tag %}tag={{ tag }}&{% endif %}{% if keyword %}keyword={{ keyword }}&{% endif %}page=1">&laquo; 先頭へ</a>
+            <a href="{% url 'forum:forum' topic.name %}?{% if tag %}tag={{ tag }}&{% endif %}{% if keyword %}keyword={{ keyword }}&{% endif %}page={{ page_obj.previous_page_number }}">前へ</a>
+            {% endif %}
+
+            <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+            <a href="{% url 'forum:forum' topic.name %}?{% if tag %}tag={{ tag }}&{% endif %}{% if keyword %}keyword={{ keyword }}&{% endif %}page={{ page_obj.next_page_number }}">次へ</a>
+            <a href="{% url 'forum:forum' topic.name %}?{% if tag %}tag={{ tag }}&{% endif %}{% if keyword %}keyword={{ keyword }}&{% endif %}page={{ page_obj.paginator.num_pages }}">最後へ &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <form class="message-form" action="{% url 'forum:forum' topic.name %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="message-form-top-content">
+            <div class="message-form-content">{{ message_form.content }}</div>
+            <div class="message-form-image">{{ message_form.image }}</div>
+        </div>
+        <div class="message-form-tag">{{ message_form.tag }}</div>
+        <input type="submit" name="message" class="message-submit" value="送信">
+    </form>
+    <div class="back-home">
+        <a href="{% url 'forum:index' %}">ホームへ</a>
+    </div>
+    <script src="{% static 'forum/js/forum.js' %}"></script>
+</body>
+</html>
